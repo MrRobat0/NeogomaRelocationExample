@@ -30,17 +30,27 @@ public class UIController : MonoBehaviour
 
         //Called when you reached the maximum of monthly requests
         mapRelocationManager.onMaxRequestReached.AddListener(OnMaximumRequestReached);
+
+        mapRelocationManager.onRelocateProcessing.AddListener(OnRelocateProcess);
+        
     }
 
+    private void OnRelocateProcess()
+    {
+        warningText.text = "Relocating...";
+        StartCoroutine("TextTimer");
+        relocateButton.SetActive(false);
+    }
     private void OnMapDownloaded(Session session, GameObject map)
     {
-        relocateButton.SetActive(true);
+        warningText.text = "Map Downloaded.";
+        StartCoroutine("TextTimer");
     }
     private void OnMapStartDownloading()
     {
-        relocateButton.SetActive(false);
-        warningText.text = "Relocating....";
+        warningText.text = "Downloading Map....";
         StartCoroutine("TextTimer");
+
     }
     private void OnPositionMatched(RelocationResults positionMatched, CoordinateSystem newCoords)
     {
